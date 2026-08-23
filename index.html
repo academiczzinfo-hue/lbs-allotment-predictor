@@ -4,498 +4,282 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LBS Allotment Predictor</title>
+<title>LBS Allotment Predictor 2025</title>
 
 <style>
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background: #0f1115;
-    color: #fff;
-    min-height: 100vh;
+    background: #f4f6f8;
+    color: #1a2330;
 }
 
-.header {
+header {
+    background: #14213d;
+    color: white;
+    padding: 28px 16px;
     text-align: center;
-    padding: 35px 20px 25px;
 }
 
-.header h1 {
-    font-size: 28px;
-    margin-bottom: 8px;
+header h1 {
+    margin: 0 0 8px;
+    font-size: 27px;
 }
 
-.header p {
-    color: #aaa;
+header p {
+    margin: 0;
+    color: #cbd5e1;
     font-size: 14px;
 }
 
 .container {
-    max-width: 750px;
+    max-width: 1100px;
     margin: auto;
-    padding: 20px;
+    padding: 18px;
 }
 
-.card {
-    background: #181b21;
-    border: 1px solid #292d35;
-    border-radius: 18px;
-    padding: 25px;
+.notice {
+    background: #fff8df;
+    border: 1px solid #efd477;
+    border-radius: 10px;
+    padding: 13px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #dce2e8;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
 label {
     display: block;
-    margin-bottom: 8px;
-    color: #ccc;
     font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 7px;
 }
 
 input,
 select {
     width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    border: 1px solid #343943;
-    background: #101216;
-    color: white;
-    font-size: 16px;
+    padding: 13px;
+    border: 1px solid #cbd5df;
+    border-radius: 8px;
+    background: white;
+    font-size: 15px;
 }
 
 button {
     width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 10px;
-    background: #ffd600;
+    margin-top: 15px;
+    padding: 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #ffd000;
     color: #111;
     font-size: 16px;
-    font-weight: bold;
-}
-
-button:active {
-    transform: scale(.99);
-}
-
-#results {
-    display: none;
-    margin-top: 25px;
+    font-weight: 700;
 }
 
 .summary {
-    background: #111318;
-    border: 1px solid #292d35;
-    padding: 18px;
-    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
     margin-bottom: 18px;
 }
 
-.summary strong {
-    color: #ffd600;
+.stat {
+    background: white;
+    border: 1px solid #dce2e8;
+    border-radius: 9px;
+    padding: 12px 15px;
+}
+
+.stat small {
+    display: block;
+    color: #687789;
+    font-size: 12px;
+}
+
+.stat strong {
+    font-size: 19px;
 }
 
 .section-title {
-    margin: 22px 0 12px;
-    font-size: 20px;
+    margin: 22px 0 10px;
 }
 
-.college {
-    background: #111318;
-    border: 1px solid #292d35;
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 12px;
+.table-wrap {
+    overflow-x: auto;
+    background: white;
+    border: 1px solid #dce2e8;
+    border-radius: 10px;
 }
 
-.college h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    line-height: 1.4;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
 }
 
-.college p {
-    color: #aaa;
+th,
+td {
+    padding: 11px 10px;
+    border-bottom: 1px solid #e5e9ee;
+    text-align: left;
     font-size: 13px;
-    margin: 5px 0;
 }
 
-.chance {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 5px 9px;
-    border-radius: 6px;
-    background: #173d27;
-    color: #4cff91;
-    font-size: 12px;
-    font-weight: bold;
+th {
+    background: #eef2f6;
+    font-weight: 700;
 }
 
-.no-result {
-    padding: 20px;
-    background: #111318;
-    border-radius: 12px;
-    color: #aaa;
+.num {
+    text-align: right;
+}
+
+.gov {
+    color: #087443;
+}
+
+.self {
+    color: #1d4e89;
+}
+
+.margin {
+    color: #087443;
+    font-weight: 700;
+}
+
+.empty {
+    background: white;
+    border: 1px solid #dce2e8;
+    border-radius: 10px;
+    padding: 18px;
+    color: #687789;
+}
+
+footer {
     text-align: center;
+    color: #778596;
+    font-size: 12px;
+    padding: 25px;
 }
 
-.footer {
-    text-align: center;
-    color: #666;
-    font-size: 12px;
-    padding: 30px;
+@media (max-width: 650px) {
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    header h1 {
+        font-size: 23px;
+    }
+
+    .container {
+        padding: 12px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<header>
     <h1>LBS ALLOTMENT PREDICTOR</h1>
-    <p>2025 Historical Allotment Data</p>
-</div>
+    <p>Kerala Nursing & Paramedical — 2025 Historical Data</p>
+</header>
 
 <div class="container">
 
-<div class="card">
+    <div class="notice">
+        <b>⚠ Indicative prediction only:</b>
+        Results are based on 2025 historical allotment cutoffs.
+        Actual allotment depends on the current year's rank list,
+        options, reservation, seats and allotment rules.
+    </div>
 
-<label>Select Course</label>
+    <div class="panel">
 
-<select id="course">
-    <option value="1">B.Sc Nursing</option>
-</select>
+        <div class="grid">
 
-<label>Enter Index Mark</label>
+            <div>
+                <label for="course">Course</label>
 
-<input
-    type="number"
-    id="indexMark"
-    placeholder="Enter your index mark"
-    step="0.01"
->
+                <select id="course">
+                    <option value="">Loading courses...</option>
+                </select>
+            </div>
 
-<label>Select Quota</label>
+            <div>
+                <label for="mark">Your Index Mark</label>
 
-<select id="quota">
-    <option value="SM">SM</option>
-    <option value="EZ">EZ</option>
-    <option value="SC">SC</option>
-    <option value="MU">MU</option>
-    <option value="MQ">MQ</option>
-    <option value="BH">BH</option>
-    <option value="LC">LC</option>
-    <option value="VK">VK</option>
-    <option value="DV">DV</option>
-    <option value="EW">EW</option>
-    <option value="NR">NR</option>
-    <option value="ST">ST</option>
-    <option value="KN">KN</option>
-    <option value="BX">BX</option>
-    <option value="KU">KU</option>
-    <option value="PD">PD</option>
-    <option value="CC">CC</option>
-    <option value="SP">SP</option>
-    <option value="SD">SD</option>
-    <option value="XS">XS</option>
-    <option value="RP">RP</option>
-</select>
+                <input
+                    id="mark"
+                    type="number"
+                    step="0.01"
+                    placeholder="Example: 280"
+                >
+            </div>
 
-<button onclick="predict()">
-    PREDICT COLLEGES
-</button>
+        </div>
 
-<div id="results"></div>
+        <div style="margin-top:15px">
+
+            <label for="quota">Quota</label>
+
+            <select id="quota">
+                <option value="ALL">All quotas</option>
+            </select>
+
+        </div>
+
+        <button onclick="predict()">
+            PREDICT COLLEGES
+        </button>
+
+    </div>
+
+    <div id="results"></div>
 
 </div>
-</div>
 
-<div class="footer">
-LBS Allotment Predictor • Based on 2025 historical data
-</div>
+<footer>
+    LBS Allotment Predictor · 2025 historical data
+</footer>
+
+
+<!-- Load the original public 2025 dataset -->
+
+<script src="https://raw.githubusercontent.com/dibishks/lbs-allotment-helper/main/data.js"></script>
 
 
 <script>
 
-const DATA_URL =
-"https://raw.githubusercontent.com/dibishks/lbs-allotment-helper/main/data.js";
-
-let LBS_DATA = null;
-
-
-/* Load the public 2025 dataset */
-
-async function loadData() {
-
-    try {
-
-        const response = await fetch(DATA_URL);
-
-        if (!response.ok) {
-            throw new Error("Data could not be loaded");
-        }
-
-        const text = await response.text();
-
-        /*
-         The original file defines:
-         window.LBS_DATA = {...};
-        */
-
-        const start = text.indexOf("=") + 1;
-        const jsonText = text
-            .substring(start)
-            .trim()
-            .replace(/;$/, "");
-
-        LBS_DATA = JSON.parse(jsonText);
-
-        console.log("LBS data loaded successfully");
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "Unable to load LBS data right now. Please refresh the page and try again."
-        );
-
-    }
-}
-
-
-/* Prediction */
-
-async function predict() {
-
-    if (!LBS_DATA) {
-        await loadData();
-    }
-
-    const mark = parseFloat(
-        document.getElementById("indexMark").value
-    );
-
-    const quota =
-        document.getElementById("quota").value;
-
-    const courseValue =
-        document.getElementById("course").value;
-
-    if (isNaN(mark)) {
-
-        alert("Please enter your index mark.");
-
-        return;
-    }
-
-    const course =
-        LBS_DATA.courses.find(
-            c => String(c.value) === String(courseValue)
-        );
-
-    if (!course) {
-
-        alert("Course data not found.");
-
-        return;
-    }
-
-    const colleges = course.colleges || [];
-
-    const results = [];
-
-    colleges.forEach(college => {
-
-        /*
-         Category-specific cutoff if available.
-         Otherwise use the overall cutoff.
-        */
-
-        let cutoff = null;
-
-        if (
-            college.cutoffs &&
-            college.cutoffs[quota] !== undefined
-        ) {
-
-            cutoff =
-                college.cutoffs[quota];
-
-        } else {
-
-            cutoff =
-                college.cutoff;
-        }
-
-        if (
-            cutoff !== null &&
-            cutoff !== undefined &&
-            mark >= cutoff
-        ) {
-
-            const difference =
-                mark - cutoff;
-
-            let chance = "HIGH CHANCE";
-
-            if (difference < 1) {
-                chance = "BORDERLINE";
-            }
-
-            results.push({
-                college: college,
-                cutoff: cutoff,
-                difference: difference,
-                chance: chance
-            });
-
-        }
-
-    });
-
-
-    /*
-     Sort by closest cutoff first
-    */
-
-    results.sort(
-        (a, b) =>
-        b.cutoff - a.cutoff
-    );
-
-
-    displayResults(
-        results,
-        mark,
-        quota,
-        course.name
-    );
-}
-
-
-/* Display */
-
-function displayResults(
-    results,
-    mark,
-    quota,
-    courseName
-) {
-
-    const container =
-        document.getElementById("results");
-
-    container.style.display = "block";
-
-    let html = "";
-
-    html += `
-        <div class="summary">
-
-            <p>
-                Course:
-                <strong>${courseName}</strong>
-            </p>
-
-            <p>
-                Index Mark:
-                <strong>${mark}</strong>
-            </p>
-
-            <p>
-                Quota:
-                <strong>${quota}</strong>
-            </p>
-
-            <p>
-                Colleges found:
-                <strong>${results.length}</strong>
-            </p>
-
-        </div>
-    `;
-
-
-    if (results.length === 0) {
-
-        html += `
-            <div class="no-result">
-
-                No college found using the
-                selected historical cutoff.
-
-            </div>
-        `;
-
-        container.innerHTML = html;
-
-        return;
-    }
-
-
-    html += `
-        <h2 class="section-title">
-            Possible Colleges
-        </h2>
-    `;
-
-
-    results.forEach(item => {
-
-        const c = item.college;
-
-        html += `
-
-            <div class="college">
-
-                <h3>
-                    ${c.name}
-                </h3>
-
-                <p>
-                    College Code:
-                    <strong>${c.code}</strong>
-                </p>
-
-                <p>
-                    Type:
-                    ${c.category}
-                </p>
-
-                <p>
-                    2025 Cutoff:
-                    <strong>${item.cutoff}</strong>
-                </p>
-
-                <p>
-                    Allotted:
-                    ${c.allotted}
-                </p>
-
-                <span class="chance">
-                    ${item.chance}
-                </span>
-
-            </div>
-
-        `;
-
-    });
-
-
-    container.innerHTML = html;
-}
-
-
-/* Load data when page opens */
-
-loadData();
-
-</script>
-
-</body>
-</html>
+const quotaNames = {
+    SM: "State Merit",
+    SC: "Scheduled Caste",
+    ST: "Scheduled Tribe",
+    EZ: "Ezhava",
+    MU: "Muslim",
+    LC: "Latin Catholic / SIUC",
+    DV: "Dheevara",
+    VK: "Viswakarma",
+    KU: "Kudumbi",
+    EW: "Forward EWS",
+   
