@@ -1,1 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LBS Allotment Predictor</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f1115;
+    color: white;
+}
+
+.header {
+    text-align: center;
+    padding: 35px 20px 25px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.header p {
+    margin-top: 8px;
+    color: #9da4ae;
+    font-size: 14px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #181b21;
+    border: 1px solid #292d35;
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #cbd0d8;
+    font-size: 14px;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #343943;
+    background: #101216;
+    color: white;
+    font-size: 16px;
+}
+
+input {
+    font-size: 18px;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background: #ffd600;
+    color: #111;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffdf32;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.stat {
+    background: #181b21;
+    border: 1px solid #292d35;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.stat small {
+    display: block;
+    color: #929aa6;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.stat strong {
+    font-size: 18px;
+}
+
+.section-title {
+    margin-top: 30px;
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.govt {
+    color: #42e88b;
+}
+
+.self {
+    color: #5da9ff;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: #181b21;
+    border: 1px solid #292d35;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    min-width: 750px;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #292d35;
+    text-align: left;
+    font-size: 13px;
+}
+
+th {
+    background: #20242b;
+    color: #bfc6d0;
+}
+
+td {
+    color: #e4e7eb;
+}
+
+.number {
+    text-align: right;
+}
+
+.code {
+    color: #ffd600;
+    font-weight: bold;
+}
+
+.margin {
+    color: #42e88b;
+    font-weight: bold;
+}
+
+.college-name {
+    font-weight: 600;
+}
+
+.empty {
+    margin-top: 25px;
+    background: #181b21;
+    border: 1px solid #292d35;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #999;
+}
+
+.loading {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+}
+
+.footer {
+    text-align: center;
+    color: #666;
+    padding: 30px 15px;
+    font-size: 12px;
+}
+
+.details {
+    margin-top: 25px;
+}
+
+.details-card {
+    background: #181b21;
+    border: 1px solid #292d35;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.details-card h2 {
+    margin-top: 0;
+}
+
+.back-button {
+    width: auto;
+    padding: 10px 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    background: #2a2f38;
+    color: white;
+}
+
+@media (max-width: 700px) {
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .header h1 {
+        font-size: 23px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="header">
+
+    <h1>LBS ALLOTMENT PREDICTOR</h1>
+
+    <p>
+        2025 Historical Data Based College Prediction
+    </p>
+
+</div>
+
+
+<div class="container">
+
+    <div id="main">
+
+        <div class="loading">
+            Loading LBS 2025 data...
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+    LBS Allotment Predictor · Historical data based
+</div>
+
+
+<!-- YOUR LOCAL 2025 DATA -->
 <script src="data.js"></script>
+
+
+<script>
+
+/* ==========================================
+   LBS ALLOTMENT PREDICTOR
+========================================== */
+
+
+let LBS = null;
+
+
+/* ==========================================
+   QUOTA NAMES
+========================================== */
+
+const quotaNames = {
+
+    SM: "State Merit",
+    EZ: "Ezhava",
+    SC: "Scheduled Caste",
+    MU: "Muslim",
+    MQ: "Management",
+    BH: "Other Category",
+    LC: "Latin Catholic",
+    VK: "Viswakarma",
+    DV: "Dheevara",
+    EW: "EWS",
+    NR: "NRI",
+    ST: "Scheduled Tribe",
+    KN: "Other Category",
+    BX: "Other Category",
+    KU: "Kudumbi",
+    PD: "Persons with Disability",
+    CC: "Special",
+    SP: "Special",
+    SD: "Special",
+    XS: "Special",
+    RP: "Special"
+
+};
+
+
+/* ==========================================
+   START
+========================================== */
+
+function startApp() {
+
+    if (
+        typeof window.LBS_DATA === "undefined"
+    ) {
+
+        document.getElementById("main").innerHTML = `
+
+            <div class="empty">
+
+                <h3>Data could not be loaded</h3>
+
+                <p>
+                    Please check that data.js exists
+                    in the same GitHub repository.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    LBS = window.LBS_DATA;
+
+    showPredictor();
+
+}
+
+
+/* ==========================================
+   SHOW PREDICTOR
+========================================== */
+
+function showPredictor() {
+
+    let courseOptions = "";
+
+
+    LBS.courses.forEach(function(course) {
+
+        courseOptions += `
+
+            <option value="${course.value}">
+
+                ${course.name}
+
+            </option>
+
+        `;
+
+    });
+
+
+    document.getElementById("main").innerHTML = `
+
+        <div class="card">
+
+            <div class="grid">
+
+                <div>
+
+                    <label>
+                        Select Course
+                    </label>
+
+                    <select id="course"
+                            onchange="updateQuota()">
+
+                        ${courseOptions}
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Enter Index Mark
+                    </label>
+
+                    <input
+                        id="indexMark"
+                        type="number"
+                        step="0.01"
+                        placeholder="Enter your index mark"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top:18px">
+
+                <label>
+                    Select Quota
+                </label>
+
+                <select id="quota">
+
+                    <option value="ALL">
+                        All Quotas
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button onclick="predict()">
+
+                PREDICT COLLEGES
+
+            </button>
+
+        </div>
+
+
+        <div id="results"></div>
+
+    `;
+
+
+    updateQuota();
+
+}
+
+
+/* ==========================================
+   UPDATE QUOTA
+========================================== */
+
+function updateQuota() {
+
+    const courseValue =
+        document.getElementById("course").value;
+
+
+    const course =
+        LBS.courses.find(function(c) {
+
+            return String(c.value)
+                === String(courseValue);
+
+        });
+
+
+    const quota =
+        document.getElementById("quota");
+
+
+    quota.innerHTML = `
+
+        <option value="ALL">
+            All Quotas
+        </option>
+
+    `;
+
+
+    if (!course) return;
+
+
+    course.quotas.forEach(function(q) {
+
+        const option =
+            document.createElement("option");
+
+
+        option.value = q;
+
+
+        option.textContent =
+            q +
+            " - " +
+            (quotaNames[q] || q);
+
+
+        quota.appendChild(option);
+
+    });
+
+}
+
+
+/* ==========================================
+   GET CUTOFF
+========================================== */
+
+function getCutoff(college, quota) {
+
+    if (quota === "ALL") {
+
+        return college.cutoff;
+
+    }
+
+
+    if (
+        college.cutoffs &&
+        college.cutoffs[quota] !== undefined
+    ) {
+
+        return college.cutoffs[quota];
+
+    }
+
+
+    return null;
+
+}
+
+
+/* ==========================================
+   PREDICT
+========================================== */
+
+function predict() {
+
+    const courseValue =
+        document.getElementById("course").value;
+
+
+    const mark =
+        parseFloat(
+            document.getElementById("indexMark").value
+        );
+
+
+    const quota =
+        document.getElementById("quota").value;
+
+
+    if (isNaN(mark)) {
+
+        alert("Please enter your index mark.");
+
+        return;
+
+    }
+
+
+    const course =
+        LBS.courses.find(function(c) {
+
+            return String(c.value)
+                === String(courseValue);
+
+        });
+
+
+    if (!course) {
+
+        alert("Course not found.");
+
+        return;
+
+    }
+
+
+    const eligible =
+        course.colleges.filter(function(college) {
+
+            const cutoff =
+                getCutoff(college, quota);
+
+
+            return (
+
+                cutoff !== null &&
+                cutoff !== undefined &&
+                mark >= cutoff
+
+            );
+
+        });
+
+
+    eligible.sort(function(a, b) {
+
+        return (
+            getCutoff(b, quota)
+            -
+            getCutoff(a, quota)
+        );
+
+    });
+
+
+    const government =
+        eligible.filter(function(college) {
+
+            return college.category
+                === "Government";
+
+        });
+
+
+    const selfFinancing =
+        eligible.filter(function(college) {
+
+            return college.category
+                === "Self-financing";
+
+        });
+
+
+    showResults(
+        course,
+        mark,
+        quota,
+        government,
+        selfFinancing
+    );
+
+}
+
+
+/* ==========================================
+   SHOW RESULTS
+========================================== */
+
+function showResults(
+    course,
+    mark,
+    quota,
+    government,
+    selfFinancing
+) {
+
+
+    const total =
+        government.length +
+        selfFinancing.length;
+
+
+    let html = `
+
+        <div class="summary">
+
+            <div class="stat">
+
+                <small>
+                    Course
+                </small>
+
+                <strong>
+                    ${course.name}
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    Index Mark
+                </small>
+
+                <strong>
+                    ${mark.toFixed(2)}
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    Quota
+                </small>
+
+                <strong>
+                    ${quota}
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    Colleges Found
+                </small>
+
+                <strong>
+                    ${total}
+                </strong>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    html += createCollegeTable(
+        "Government Colleges",
+        government,
+        mark,
+        quota,
+        "govt"
+    );
+
+
+    html += createCollegeTable(
+        "Self-financing Colleges",
+        selfFinancing,
+        mark,
+        quota,
+        "self"
+    );
+
+
+    document.getElementById("results").innerHTML =
+        html;
+
+}
+
+
+/* ==========================================
+   CREATE TABLE
+========================================== */
+
+function createCollegeTable(
+    title,
+    colleges,
+    mark,
+    quota,
+    className
+) {
+
+
+    let html = `
+
+        <h2 class="section-title ${className}">
+
+            ${title}
+
+            <span style="
+                font-size:13px;
+                color:#777;
+            ">
+
+                (${colleges.length})
+
+            </span>
+
+        </h2>
+
+    `;
+
+
+    if (colleges.length === 0) {
+
+        html += `
+
+            <div class="empty">
+
+                No colleges found for this
+                index mark and quota.
+
+            </div>
+
+        `;
+
+        return html;
+
+    }
+
+
+    html += `
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Code
+                        </th>
+
+                        <th>
+                            College
+                        </th>
+
+                        <th class="number">
+                            2025 Cutoff
+                        </th>
+
+                        <th class="number">
+                            Seats
+                        </th>
+
+                        <th class="number">
+                            Your Margin
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+    `;
+
+
+    colleges.forEach(function(college) {
+
+
+        const cutoff =
+            getCutoff(college, quota);
+
+
+        const margin =
+            mark - cutoff;
+
+
+        html += `
+
+            <tr>
+
+                <td>
+
+                    <span class="code">
+
+                        ${college.code}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <span class="college-name">
+
+                        ${college.name}
+
+                    </span>
+
+                </td>
+
+
+                <td class="number">
+
+                    ${formatNumber(cutoff)}
+
+                </td>
+
+
+                <td class="number">
+
+                    ${college.allotted}
+
+                </td>
+
+
+                <td class="number margin">
+
+                    +${formatNumber(margin)}
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+
+    return html;
+
+}
+
+
+/* ==========================================
+   FORMAT NUMBER
+========================================== */
+
+function formatNumber(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        return "—";
+
+    }
+
+
+    return Number(value).toFixed(2);
+
+}
+
+
+/* ==========================================
+   START APPLICATION
+========================================== */
+
+startApp();
+
+</script>
+
+</body>
+</html>
