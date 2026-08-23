@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
 <title>LBS Allotment Predictor</title>
 
 <style>
-*{box-sizing:border-box}
+
+/* =========================
+   BASIC
+========================= */
+
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
-    font-family:Arial,sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
     background:#0f1115;
-    color:#fff;
+    color:#ffffff;
 }
 
 .header{
     text-align:center;
-    padding:30px 15px 20px;
+    padding:32px 15px 22px;
 }
 
 .header h1{
@@ -26,22 +38,56 @@ body{
 }
 
 .header p{
+    margin-top:8px;
     color:#9da4ae;
     font-size:14px;
 }
 
 .container{
-    max-width:1100px;
+    max-width:1150px;
     margin:auto;
     padding:15px;
 }
+
+
+/* =========================
+   TABS
+========================= */
+
+.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.tab{
+    flex:1;
+    border:none;
+    border-radius:10px;
+    padding:15px;
+    background:#292f38;
+    color:#ffffff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.tab.active{
+    background:#ffd600;
+    color:#111111;
+}
+
+
+/* =========================
+   CARDS
+========================= */
 
 .card{
     background:#181b21;
     border:1px solid #292d35;
     border-radius:14px;
     padding:22px;
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
 
 .grid{
@@ -57,22 +103,29 @@ label{
     font-size:14px;
 }
 
-input,select{
+input,
+select{
     width:100%;
     padding:14px;
     border-radius:9px;
     border:1px solid #343943;
     background:#101216;
-    color:#fff;
+    color:#ffffff;
     font-size:16px;
 }
 
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#ffd600;
+}
+
 button{
-    border:0;
+    border:none;
     border-radius:9px;
     padding:14px 18px;
     background:#ffd600;
-    color:#111;
+    color:#111111;
     font-weight:bold;
     font-size:15px;
     cursor:pointer;
@@ -83,11 +136,16 @@ button{
     margin-top:18px;
 }
 
-.secondary{
+.secondary-button{
     background:#292f38;
-    color:#fff;
+    color:#ffffff;
     margin-bottom:15px;
 }
+
+
+/* =========================
+   SUMMARY
+========================= */
 
 .summary{
     display:grid;
@@ -99,49 +157,66 @@ button{
 .stat{
     background:#181b21;
     border:1px solid #292d35;
-    border-radius:9px;
-    padding:13px;
+    border-radius:10px;
+    padding:14px;
 }
 
 .stat small{
     display:block;
-    color:#8e98a5;
+    color:#8f99a7;
     font-size:12px;
     margin-bottom:5px;
 }
 
 .stat strong{
+    display:block;
     font-size:18px;
 }
 
-.section-title{
-    margin:25px 0 10px;
-    font-size:20px;
+
+/* =========================
+   EXACT DATA FILTERS
+========================= */
+
+.filter-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:12px;
 }
 
-.govt{
-    color:#42e88b;
+.filter-title{
+    font-size:18px;
+    margin:0 0 15px;
 }
 
-.self{
-    color:#5da9ff;
+.result-count{
+    color:#9da4ae;
+    font-size:13px;
+    margin-top:12px;
 }
+
+
+/* =========================
+   TABLE
+========================= */
 
 .table-wrap{
+    width:100%;
     overflow-x:auto;
     background:#181b21;
     border:1px solid #292d35;
-    border-radius:9px;
+    border-radius:10px;
 }
 
 table{
     width:100%;
-    min-width:760px;
+    min-width:850px;
     border-collapse:collapse;
 }
 
-th,td{
-    padding:11px;
+th,
+td{
+    padding:12px;
     border-bottom:1px solid #292d35;
     text-align:left;
     font-size:13px;
@@ -149,20 +224,21 @@ th,td{
 
 th{
     background:#20242b;
-    color:#bfc6d0;
+    color:#c6cdd7;
+    white-space:nowrap;
+}
+
+td{
+    color:#eeeeee;
 }
 
 .number{
     text-align:right;
+    white-space:nowrap;
 }
 
 .code{
     color:#ffd600;
-    font-weight:bold;
-}
-
-.margin{
-    color:#42e88b;
     font-weight:bold;
 }
 
@@ -174,48 +250,96 @@ th{
     background:#20252d;
 }
 
-.empty{
-    background:#181b21;
-    border:1px solid #292d35;
-    border-radius:10px;
-    padding:20px;
-    color:#999;
-    text-align:center;
+.type-government{
+    color:#42e88b;
+    font-weight:bold;
 }
 
-.loading{
-    padding:30px;
-    text-align:center;
-    color:#999;
+.type-self{
+    color:#5da9ff;
+    font-weight:bold;
 }
 
-.tabs{
-    display:flex;
-    gap:8px;
-    margin-bottom:18px;
+
+/* =========================
+   SECTION
+========================= */
+
+.section-title{
+    margin:25px 0 10px;
+    font-size:20px;
 }
 
-.tab{
-    flex:1;
-    background:#292f38;
-    color:#ddd;
+.govt-title{
+    color:#42e88b;
 }
 
-.tab.active{
-    background:#ffd600;
-    color:#111;
+.self-title{
+    color:#5da9ff;
 }
+
+
+/* =========================
+   DETAILS
+========================= */
 
 .detail-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:10px;
-    margin:15px 0;
+    margin:18px 0;
 }
 
-@media(max-width:700px){
+.detail-title{
+    margin-top:0;
+    line-height:1.4;
+}
+
+.detail-subtitle{
+    color:#929aa6;
+    margin-top:-5px;
+    margin-bottom:20px;
+}
+
+.empty{
+    background:#181b21;
+    border:1px solid #292d35;
+    border-radius:10px;
+    padding:25px;
+    text-align:center;
+    color:#999999;
+}
+
+.loading{
+    text-align:center;
+    padding:35px;
+    color:#999999;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    text-align:center;
+    color:#666666;
+    font-size:12px;
+    padding:30px 15px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:800px){
 
     .grid{
+        grid-template-columns:1fr;
+    }
+
+    .filter-grid{
         grid-template-columns:1fr;
     }
 
@@ -227,126 +351,222 @@ th{
         grid-template-columns:1fr 1fr;
     }
 
+}
+
+@media(max-width:500px){
+
     .header h1{
         font-size:23px;
     }
-}
 
-@media(max-width:450px){
+    .container{
+        padding:10px;
+    }
+
+    .card{
+        padding:16px;
+    }
 
     .summary{
         grid-template-columns:1fr;
     }
+
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+
+    .tabs{
+        gap:6px;
+    }
+
+    .tab{
+        font-size:14px;
+        padding:13px 8px;
+    }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="header">
+
     <h1>LBS ALLOTMENT PREDICTOR</h1>
-    <p>2025 Historical Allotment Data</p>
+
+    <p>
+        2025 Historical Allotment Data
+    </p>
+
 </div>
+
 
 <div class="container">
 
     <div id="app">
+
         <div class="loading">
             Loading 2025 LBS data...
         </div>
+
     </div>
 
 </div>
 
 
+<div class="footer">
+
+    LBS Allotment Predictor · Exact 2025 Historical Data
+
+</div>
+
+
+<!-- =====================================
+     LOCAL DATA FILE
+===================================== -->
+
 <script src="data.js"></script>
+
 
 <script>
 
-let DATA=null;
+/* =====================================
+   GLOBAL DATA
+===================================== */
 
-const QUOTA_NAMES={
+let DATA = null;
+
+
+/* =====================================
+   QUOTA NAMES
+===================================== */
+
+const QUOTA_NAMES = {
+
     SM:"State Merit",
+
     EZ:"Ezhava",
+
     SC:"Scheduled Caste",
+
     MU:"Muslim",
+
     MQ:"Management",
+
     BH:"Other Category",
+
     LC:"Latin Catholic",
+
     VK:"Viswakarma",
+
     DV:"Dheevara",
+
     EW:"EWS",
+
     NR:"NRI",
+
     ST:"Scheduled Tribe",
+
     KN:"Other Category",
+
     BX:"Other Category",
+
     KU:"Kudumbi",
+
     PD:"Persons with Disability",
+
     CC:"Special",
+
     SP:"Special",
+
     SD:"Special",
+
     XS:"Special",
+
     RP:"Special"
+
 };
 
 
-/* -------------------------
-   START
-------------------------- */
+/* =====================================
+   START APPLICATION
+===================================== */
 
-function start(){
+function startApp(){
 
     if(!window.LBS_DATA){
 
-        document.getElementById("app").innerHTML=`
+        document.getElementById("app").innerHTML = `
+
             <div class="empty">
+
                 <h3>Data could not be loaded</h3>
-                <p>Make sure data.js is in the same repository.</p>
+
+                <p>
+                    Please make sure data.js is
+                    in the same repository.
+                </p>
+
             </div>
+
         `;
 
         return;
     }
 
-    DATA=window.LBS_DATA;
 
-    showHome();
+    DATA = window.LBS_DATA;
+
+    showPredictor();
+
 }
 
 
-/* -------------------------
-   HOME
-------------------------- */
+/* =====================================
+   PREDICTOR PAGE
+===================================== */
 
-function showHome(){
+function showPredictor(){
 
-    let courseOptions="";
+    let courseOptions = "";
 
-    DATA.courses.forEach(course=>{
 
-        courseOptions+=`
+    DATA.courses.forEach(function(course){
+
+        courseOptions += `
+
             <option value="${course.value}">
                 ${course.name}
             </option>
+
         `;
 
     });
 
 
-    document.getElementById("app").innerHTML=`
+    document.getElementById("app").innerHTML = `
 
         <div class="tabs">
 
             <button
                 class="tab active"
-                onclick="showHome()">
+                onclick="showPredictor()">
+
                 Predictor
+
             </button>
+
 
             <button
                 class="tab"
                 onclick="showExactData()">
+
                 Exact 2025 Data
+
             </button>
 
         </div>
@@ -358,10 +578,13 @@ function showHome(){
 
                 <div>
 
-                    <label>Course</label>
+                    <label>
+                        Select Course
+                    </label>
 
-                    <select id="course"
-                            onchange="updateQuotas()">
+                    <select
+                        id="course"
+                        onchange="updateQuotas()">
 
                         ${courseOptions}
 
@@ -372,14 +595,15 @@ function showHome(){
 
                 <div>
 
-                    <label>Index Mark</label>
+                    <label>
+                        Enter Index Mark
+                    </label>
 
                     <input
                         id="indexMark"
                         type="number"
                         step="0.01"
-                        placeholder="Enter index mark"
-                    >
+                        placeholder="Enter your index mark">
 
                 </div>
 
@@ -388,12 +612,16 @@ function showHome(){
 
             <div style="margin-top:16px">
 
-                <label>Quota</label>
+                <label>
+                    Select Quota
+                </label>
 
                 <select id="quota">
+
                     <option value="ALL">
                         All Quotas
                     </option>
+
                 </select>
 
             </div>
@@ -411,341 +639,491 @@ function showHome(){
 
 
         <div id="results"></div>
+
     `;
 
 
     updateQuotas();
+
 }
 
 
-/* -------------------------
-   QUOTAS
-------------------------- */
+/* =====================================
+   UPDATE QUOTAS
+===================================== */
 
 function updateQuotas(){
 
-    const course=
-        DATA.courses.find(
-            c=>String(c.value)===
-            String(document.getElementById("course").value)
-        );
+    const courseSelect =
+        document.getElementById("course");
 
-    const select=
+
+    const quotaSelect =
         document.getElementById("quota");
 
-    select.innerHTML=`
-        <option value="ALL">
-            All Quotas
-        </option>
-    `;
 
-    if(!course)return;
-
-    course.quotas.forEach(q=>{
-
-        const option=
-            document.createElement("option");
-
-        option.value=q;
-
-        option.textContent=
-            q+" — "+
-            (QUOTA_NAMES[q]||q);
-
-        select.appendChild(option);
-
-    });
-}
-
-
-/* -------------------------
-   CUTOFF
-------------------------- */
-
-function cutoff(college,quota){
-
-    if(quota==="ALL"){
-        return college.cutoff;
-    }
-
-    if(
-        college.cutoffs &&
-        college.cutoffs[quota]!==undefined
-    ){
-        return college.cutoffs[quota];
-    }
-
-    return null;
-}
-
-
-/* -------------------------
-   PREDICT
-------------------------- */
-
-function predict(){
-
-    const course=
-        DATA.courses.find(
-            c=>String(c.value)===
-            String(document.getElementById("course").value)
-        );
-
-    const mark=
-        parseFloat(
-            document.getElementById("indexMark").value
-        );
-
-    const quota=
-        document.getElementById("quota").value;
-
-
-    if(isNaN(mark)){
-        alert("Please enter your index mark.");
+    if(!courseSelect || !quotaSelect){
         return;
     }
 
 
-    const possible=
-        course.colleges.filter(college=>{
+    const course =
+        DATA.courses.find(function(c){
 
-            const c=cutoff(college,quota);
+            return String(c.value) ===
+                   String(courseSelect.value);
+
+        });
+
+
+    quotaSelect.innerHTML = `
+
+        <option value="ALL">
+            All Quotas
+        </option>
+
+    `;
+
+
+    if(!course){
+        return;
+    }
+
+
+    course.quotas.forEach(function(q){
+
+        const option =
+            document.createElement("option");
+
+
+        option.value = q;
+
+
+        option.textContent =
+            q +
+            " — " +
+            (QUOTA_NAMES[q] || q);
+
+
+        quotaSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =====================================
+   GET CUTOFF
+===================================== */
+
+function getCutoff(college,quota){
+
+    if(quota === "ALL"){
+
+        return college.cutoff;
+
+    }
+
+
+    if(
+        college.cutoffs &&
+        college.cutoffs[quota] !== undefined
+    ){
+
+        return college.cutoffs[quota];
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================
+   PREDICT
+===================================== */
+
+function predict(){
+
+    const course =
+        DATA.courses.find(function(c){
+
+            return String(c.value) ===
+                   String(
+                       document.getElementById("course").value
+                   );
+
+        });
+
+
+    const mark =
+        parseFloat(
+            document.getElementById("indexMark").value
+        );
+
+
+    const quota =
+        document.getElementById("quota").value;
+
+
+    if(isNaN(mark)){
+
+        alert("Please enter your index mark.");
+
+        return;
+
+    }
+
+
+    if(!course){
+
+        alert("Course not found.");
+
+        return;
+
+    }
+
+
+    const eligible =
+        course.colleges.filter(function(college){
+
+            const cutoff =
+                getCutoff(college,quota);
+
 
             return(
-                c!==null &&
-                c!==undefined &&
-                mark>=c
+                cutoff !== null &&
+                cutoff !== undefined &&
+                mark >= cutoff
             );
 
         });
 
 
-    possible.sort(
-        (a,b)=>
-        (cutoff(b,quota)||0)-
-        (cutoff(a,quota)||0)
-    );
+    eligible.sort(function(a,b){
 
-
-    const government=
-        possible.filter(
-            c=>c.category==="Government"
+        return(
+            (getCutoff(b,quota) || 0) -
+            (getCutoff(a,quota) || 0)
         );
 
-    const self=
-        possible.filter(
-            c=>c.category==="Self-financing"
-        );
+    });
 
 
-    showResults(
+    const government =
+        eligible.filter(function(c){
+
+            return c.category === "Government";
+
+        });
+
+
+    const selfFinancing =
+        eligible.filter(function(c){
+
+            return c.category === "Self-financing";
+
+        });
+
+
+    showPredictionResults(
         course,
         mark,
         quota,
         government,
-        self
+        selfFinancing
     );
+
 }
 
 
-/* -------------------------
-   RESULTS
-------------------------- */
+/* =====================================
+   PREDICTION RESULTS
+===================================== */
 
-function showResults(
+function showPredictionResults(
     course,
     mark,
     quota,
     government,
-    self
+    selfFinancing
 ){
 
-    let html=`
+    let html = `
 
         <div class="summary">
 
             <div class="stat">
+
                 <small>Course</small>
-                <strong>${course.name}</strong>
-            </div>
 
-            <div class="stat">
-                <small>Index Mark</small>
-                <strong>${mark.toFixed(2)}</strong>
-            </div>
-
-            <div class="stat">
-                <small>Quota</small>
-                <strong>${quota}</strong>
-            </div>
-
-            <div class="stat">
-                <small>Colleges Found</small>
                 <strong>
-                    ${government.length+self.length}
+                    ${course.name}
                 </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>Index Mark</small>
+
+                <strong>
+                    ${mark.toFixed(2)}
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>Quota</small>
+
+                <strong>
+                    ${quota}
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>Colleges Found</small>
+
+                <strong>
+                    ${government.length +
+                      selfFinancing.length}
+                </strong>
+
             </div>
 
         </div>
+
     `;
 
 
-    html+=resultTable(
+    html += predictionTable(
         "Government Colleges",
         government,
         mark,
         quota,
-        "govt"
+        "govt-title"
     );
 
 
-    html+=resultTable(
+    html += predictionTable(
         "Self-financing Colleges",
-        self,
+        selfFinancing,
         mark,
         quota,
-        "self"
+        "self-title"
     );
 
 
-    document.getElementById("results").innerHTML=html;
+    document.getElementById("results").innerHTML =
+        html;
+
 }
 
 
-function resultTable(
+/* =====================================
+   PREDICTION TABLE
+===================================== */
+
+function predictionTable(
     title,
     colleges,
     mark,
     quota,
-    type
+    className
 ){
 
-    let html=`
+    let html = `
 
-        <h2 class="section-title ${type}">
+        <h2 class="section-title ${className}">
+
             ${title}
-            <span style="font-size:13px;color:#777">
+
+            <span style="
+                font-size:13px;
+                color:#777;
+            ">
+
                 (${colleges.length})
+
             </span>
+
         </h2>
+
     `;
 
 
     if(!colleges.length){
 
-        return html+`
+        html += `
+
             <div class="empty">
+
                 No matching colleges found.
+
             </div>
+
         `;
+
+        return html;
+
     }
 
 
-    html+=`
+    html += `
 
         <div class="table-wrap">
 
         <table>
 
-        <thead>
+            <thead>
 
-        <tr>
-            <th>Code</th>
-            <th>College</th>
-            <th class="number">Cutoff</th>
-            <th class="number">Seats</th>
-            <th class="number">Margin</th>
-        </tr>
+                <tr>
 
-        </thead>
+                    <th>Code</th>
 
-        <tbody>
+                    <th>College</th>
+
+                    <th class="number">
+                        2025 Cutoff
+                    </th>
+
+                    <th class="number">
+                        Seats
+                    </th>
+
+                    <th class="number">
+                        Your Margin
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
     `;
 
 
-    colleges.forEach(c=>{
+    colleges.forEach(function(college){
 
-        const value=cutoff(c,quota);
+        const cutoff =
+            getCutoff(college,quota);
 
-        const margin=mark-value;
+
+        const margin =
+            mark - cutoff;
 
 
-        html+=`
+        html += `
 
             <tr
                 class="clickable"
-                onclick="showCollege('${c.value}')">
+                onclick="showCollege('${college.value}')">
 
                 <td>
+
                     <span class="code">
-                        ${c.code}
+                        ${college.code}
                     </span>
+
                 </td>
+
 
                 <td>
-                    ${c.name}
+                    ${college.name}
                 </td>
+
 
                 <td class="number">
-                    ${format(value)}
+                    ${formatNumber(cutoff)}
                 </td>
+
 
                 <td class="number">
-                    ${c.allotted}
+                    ${college.allotted}
                 </td>
 
-                <td class="number margin">
-                    +${format(margin)}
+
+                <td class="number"
+                    style="
+                        color:#42e88b;
+                        font-weight:bold;
+                    ">
+
+                    +${formatNumber(margin)}
+
                 </td>
 
             </tr>
+
         `;
 
     });
 
 
-    html+=`
-        </tbody>
+    html += `
+
+            </tbody>
+
         </table>
+
         </div>
+
     `;
 
+
     return html;
+
 }
 
 
-/* -------------------------
+/* =====================================
    EXACT DATA PAGE
-------------------------- */
+===================================== */
 
 function showExactData(){
 
-    let courseOptions="";
+    let courseOptions = "";
 
-    DATA.courses.forEach(course=>{
 
-        courseOptions+=`
+    DATA.courses.forEach(function(course){
+
+        courseOptions += `
+
             <option value="${course.value}">
                 ${course.name}
             </option>
+
         `;
 
     });
 
 
-    document.getElementById("app").innerHTML=`
+    document.getElementById("app").innerHTML = `
 
         <div class="tabs">
 
             <button
                 class="tab"
-                onclick="showHome()">
+                onclick="showPredictor()">
+
                 Predictor
+
             </button>
+
 
             <button
                 class="tab active">
+
                 Exact 2025 Data
+
             </button>
 
         </div>
@@ -753,10 +1131,14 @@ function showExactData(){
 
         <div class="card">
 
-            <label>Course</label>
+            <label>
+                Course
+            </label>
 
-            <select id="dataCourse"
-                    onchange="renderExactData()">
+
+            <select
+                id="dataCourse"
+                onchange="renderExactData()">
 
                 ${courseOptions}
 
@@ -765,236 +1147,731 @@ function showExactData(){
         </div>
 
 
-        <div id="exactResults"></div>
+        <div
+            id="exactArea">
+        </div>
+
     `;
 
 
     renderExactData();
+
 }
 
 
-/* -------------------------
-   EXACT DATA TABLE
-------------------------- */
+/* =====================================
+   EXACT DATA PAGE
+===================================== */
 
 function renderExactData(){
 
-    const course=
-        DATA.courses.find(
-            c=>String(c.value)===
-            String(document.getElementById("dataCourse").value)
-        );
+    const courseSelect =
+        document.getElementById("dataCourse");
 
 
-    if(!course)return;
+    if(!courseSelect){
+        return;
+    }
 
 
-    let html=`
+    const course =
+        DATA.courses.find(function(c){
+
+            return String(c.value) ===
+                   String(courseSelect.value);
+
+        });
+
+
+    if(!course){
+        return;
+    }
+
+
+    document.getElementById("exactArea").innerHTML = `
 
         <div class="summary">
 
             <div class="stat">
+
                 <small>Course</small>
-                <strong>${course.name}</strong>
+
+                <strong>
+                    ${course.name}
+                </strong>
+
             </div>
 
+
             <div class="stat">
+
                 <small>Colleges</small>
-                <strong>${course.colleges.length}</strong>
+
+                <strong>
+                    ${course.colleges.length}
+                </strong>
+
             </div>
 
+
             <div class="stat">
+
                 <small>Year</small>
-                <strong>${DATA.year}</strong>
+
+                <strong>
+                    ${DATA.year}
+                </strong>
+
             </div>
 
+
             <div class="stat">
+
                 <small>Maximum Index</small>
-                <strong>${course.maxIndex}</strong>
+
+                <strong>
+                    ${course.maxIndex}
+                </strong>
+
             </div>
 
         </div>
 
+
+        <div class="card">
+
+            <h3 class="filter-title">
+                Search & Filter
+            </h3>
+
+
+            <div class="filter-grid">
+
+                <div>
+
+                    <label>
+                        Search College
+                    </label>
+
+                    <input
+                        id="collegeSearch"
+                        type="text"
+                        placeholder="College name or code"
+                        oninput="filterExactData()">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        College Type
+                    </label>
+
+                    <select
+                        id="typeFilter"
+                        onchange="filterExactData()">
+
+                        <option value="ALL">
+                            All Colleges
+                        </option>
+
+                        <option value="Government">
+                            Government
+                        </option>
+
+                        <option value="Self-financing">
+                            Self-financing
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Sort By
+                    </label>
+
+                    <select
+                        id="sortFilter"
+                        onchange="filterExactData()">
+
+                        <option value="default">
+                            Original Order
+                        </option>
+
+                        <option value="cutoff-desc">
+                            Cutoff: High → Low
+                        </option>
+
+                        <option value="cutoff-asc">
+                            Cutoff: Low → High
+                        </option>
+
+                        <option value="merit-desc">
+                            Merit: High → Low
+                        </option>
+
+                        <option value="merit-asc">
+                            Merit: Low → High
+                        </option>
+
+                        <option value="top-desc">
+                            Top Index: High → Low
+                        </option>
+
+                        <option value="top-asc">
+                            Top Index: Low → High
+                        </option>
+
+                        <option value="seats-desc">
+                            Seats: High → Low
+                        </option>
+
+                        <option value="seats-asc">
+                            Seats: Low → High
+                        </option>
+
+                        <option value="name-asc">
+                            College Name: A → Z
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="filterCount"
+                class="result-count">
+            </div>
+
+        </div>
+
+
+        <div id="exactTable">
+        </div>
+
+    `;
+
+
+    filterExactData();
+
+}
+
+
+/* =====================================
+   FILTER EXACT DATA
+===================================== */
+
+function filterExactData(){
+
+    const courseSelect =
+        document.getElementById("dataCourse");
+
+
+    if(!courseSelect){
+        return;
+    }
+
+
+    const course =
+        DATA.courses.find(function(c){
+
+            return String(c.value) ===
+                   String(courseSelect.value);
+
+        });
+
+
+    if(!course){
+        return;
+    }
+
+
+    const search =
+        (
+            document.getElementById("collegeSearch")
+            .value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const type =
+        document.getElementById("typeFilter").value;
+
+
+    const sort =
+        document.getElementById("sortFilter").value;
+
+
+    let colleges =
+        course.colleges.filter(function(college){
+
+            const name =
+                String(college.name || "")
+                .toLowerCase();
+
+
+            const code =
+                String(college.code || "")
+                .toLowerCase();
+
+
+            const matchesSearch =
+                !search ||
+                name.includes(search) ||
+                code.includes(search);
+
+
+            const matchesType =
+                type === "ALL" ||
+                college.category === type;
+
+
+            return(
+                matchesSearch &&
+                matchesType
+            );
+
+        });
+
+
+    /* SORT */
+
+    colleges.sort(function(a,b){
+
+        if(sort === "default"){
+
+            return (
+                course.colleges.indexOf(a) -
+                course.colleges.indexOf(b)
+            );
+
+        }
+
+
+        if(sort === "cutoff-desc"){
+            return (
+                Number(b.cutoff || 0) -
+                Number(a.cutoff || 0)
+            );
+        }
+
+
+        if(sort === "cutoff-asc"){
+            return (
+                Number(a.cutoff || 0) -
+                Number(b.cutoff || 0)
+            );
+        }
+
+
+        if(sort === "merit-desc"){
+            return (
+                Number(b.cutoffMerit || 0) -
+                Number(a.cutoffMerit || 0)
+            );
+        }
+
+
+        if(sort === "merit-asc"){
+            return (
+                Number(a.cutoffMerit || 0) -
+                Number(b.cutoffMerit || 0)
+            );
+        }
+
+
+        if(sort === "top-desc"){
+            return (
+                Number(b.top || 0) -
+                Number(a.top || 0)
+            );
+        }
+
+
+        if(sort === "top-asc"){
+            return (
+                Number(a.top || 0) -
+                Number(b.top || 0)
+            );
+        }
+
+
+        if(sort === "seats-desc"){
+            return (
+                Number(b.allotted || 0) -
+                Number(a.allotted || 0)
+            );
+        }
+
+
+        if(sort === "seats-asc"){
+            return (
+                Number(a.allotted || 0) -
+                Number(b.allotted || 0)
+            );
+        }
+
+
+        if(sort === "name-asc"){
+
+            return String(a.name || "")
+                .localeCompare(
+                    String(b.name || "")
+                );
+
+        }
+
+
+        return 0;
+
+    });
+
+
+    document.getElementById("filterCount").innerHTML =
+
+        "Showing <b>" +
+        colleges.length +
+        "</b> of <b>" +
+        course.colleges.length +
+        "</b> colleges";
+
+
+    renderExactTable(colleges);
+
+}
+
+
+/* =====================================
+   EXACT TABLE
+===================================== */
+
+function renderExactTable(colleges){
+
+    const container =
+        document.getElementById("exactTable");
+
+
+    if(!colleges.length){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                No colleges match your search/filter.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    let html = `
 
         <div class="table-wrap">
 
         <table>
 
-        <thead>
+            <thead>
 
-        <tr>
+                <tr>
 
-            <th>Code</th>
-            <th>College</th>
-            <th>Type</th>
-            <th class="number">Allotted</th>
-            <th class="number">Cutoff</th>
-            <th class="number">Merit</th>
-            <th class="number">Top</th>
+                    <th>Code</th>
 
-        </tr>
+                    <th>College</th>
 
-        </thead>
+                    <th>Type</th>
 
-        <tbody>
+                    <th class="number">
+                        Allotted
+                    </th>
+
+                    <th class="number">
+                        Cutoff
+                    </th>
+
+                    <th class="number">
+                        Merit
+                    </th>
+
+                    <th class="number">
+                        Top
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
     `;
 
 
-    course.colleges.forEach(c=>{
+    colleges.forEach(function(college){
 
-        html+=`
+        const typeClass =
+            college.category === "Government"
+            ? "type-government"
+            : "type-self";
+
+
+        html += `
 
             <tr
                 class="clickable"
-                onclick="showCollege('${c.value}')">
+                onclick="showCollege('${college.value}')">
 
                 <td>
+
                     <span class="code">
-                        ${c.code}
+                        ${college.code}
                     </span>
+
                 </td>
+
 
                 <td>
-                    ${c.name}
+                    ${college.name}
                 </td>
 
-                <td>
-                    ${c.category}
+
+                <td class="${typeClass}">
+                    ${college.category}
                 </td>
 
-                <td class="number">
-                    ${c.allotted}
-                </td>
 
                 <td class="number">
-                    ${format(c.cutoff)}
+                    ${college.allotted}
                 </td>
 
-                <td class="number">
-                    ${format(c.cutoffMerit)}
-                </td>
 
                 <td class="number">
-                    ${format(c.top)}
+                    ${formatNumber(college.cutoff)}
+                </td>
+
+
+                <td class="number">
+                    ${formatNumber(college.cutoffMerit)}
+                </td>
+
+
+                <td class="number">
+                    ${formatNumber(college.top)}
                 </td>
 
             </tr>
+
         `;
 
     });
 
 
-    html+=`
-        </tbody>
+    html += `
+
+            </tbody>
+
         </table>
+
         </div>
+
     `;
 
 
-    document.getElementById("exactResults").innerHTML=html;
+    container.innerHTML = html;
+
 }
 
 
-/* -------------------------
+/* =====================================
    COLLEGE DETAILS
-------------------------- */
+===================================== */
 
 function showCollege(value){
 
-    let currentCourse=
-        DATA.courses.find(course=>
-            course.colleges.some(
-                c=>String(c.value)===String(value)
-            )
-        );
+    let courseFound = null;
 
 
-    if(!currentCourse)return;
+    let collegeFound = null;
 
 
-    const college=
-        currentCourse.colleges.find(
-            c=>String(c.value)===String(value)
-        );
+    DATA.courses.some(function(course){
+
+        const college =
+            course.colleges.find(function(c){
+
+                return String(c.value) ===
+                       String(value);
+
+            });
 
 
-    if(!college)return;
+        if(college){
+
+            courseFound = course;
+
+            collegeFound = college;
+
+            return true;
+
+        }
 
 
-    let quotaRows="";
+        return false;
+
+    });
+
+
+    if(!courseFound || !collegeFound){
+
+        return;
+
+    }
+
+
+    let quotaRows = "";
 
 
     Object.entries(
-        college.cutoffs||{}
+        collegeFound.cutoffs || {}
     )
-    .forEach(([q,value])=>{
+    .sort(function(a,b){
 
-        quotaRows+=`
+        return Number(b[1]) -
+               Number(a[1]);
+
+    })
+    .forEach(function(entry){
+
+        const quota = entry[0];
+
+        const value = entry[1];
+
+
+        quotaRows += `
 
             <tr>
 
                 <td>
-                    <strong>${q}</strong>
+                    <strong>
+                        ${quota}
+                    </strong>
                 </td>
+
 
                 <td>
-                    ${QUOTA_NAMES[q]||q}
+                    ${QUOTA_NAMES[quota] || quota}
                 </td>
 
+
                 <td class="number">
-                    ${format(value)}
+                    ${formatNumber(value)}
                 </td>
 
             </tr>
+
         `;
 
     });
 
 
-    document.getElementById("app").innerHTML=`
+    document.getElementById("app").innerHTML = `
 
         <button
-            class="secondary"
-            onclick="showHome()">
+            class="secondary-button"
+            onclick="showExactData()">
 
-            ← Back to Predictor
+            ← Back to Exact 2025 Data
 
         </button>
 
 
         <div class="card">
 
-            <h2>
-                ${college.name}
+            <h2 class="detail-title">
+
+                ${collegeFound.name}
+
             </h2>
 
-            <p style="color:#999">
-                ${college.code}
+
+            <p class="detail-subtitle">
+
+                ${collegeFound.code}
                 ·
-                ${college.category}
+                ${collegeFound.category}
+                ·
+                ${courseFound.name}
+
             </p>
 
 
             <div class="detail-grid">
 
                 <div class="stat">
-                    <small>Allotted</small>
-                    <strong>${college.allotted}</strong>
+
+                    <small>
+                        Allotted
+                    </small>
+
+                    <strong>
+                        ${collegeFound.allotted}
+                    </strong>
+
                 </div>
 
-                <div class="stat">
-                    <small>Overall Cutoff</small>
-                    <strong>${format(college.cutoff)}</strong>
-                </div>
 
                 <div class="stat">
-                    <small>Merit Cutoff</small>
-                    <strong>${format(college.cutoffMerit)}</strong>
+
+                    <small>
+                        Overall Cutoff
+                    </small>
+
+                    <strong>
+                        ${formatNumber(
+                            collegeFound.cutoff
+                        )}
+                    </strong>
+
                 </div>
 
+
                 <div class="stat">
-                    <small>Top Index</small>
-                    <strong>${format(college.top)}</strong>
+
+                    <small>
+                        Merit Cutoff
+                    </small>
+
+                    <strong>
+                        ${formatNumber(
+                            collegeFound.cutoffMerit
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <small>
+                        Top Index
+                    </small>
+
+                    <strong>
+                        ${formatNumber(
+                            collegeFound.top
+                        )}
+                    </strong>
+
                 </div>
 
             </div>
@@ -1012,12 +1889,23 @@ function showCollege(value){
                     <thead>
 
                         <tr>
-                            <th>Quota</th>
-                            <th>Category</th>
-                            <th class="number">Cutoff</th>
+
+                            <th>
+                                Quota
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th class="number">
+                                Cutoff
+                            </th>
+
                         </tr>
 
                     </thead>
+
 
                     <tbody>
 
@@ -1030,33 +1918,39 @@ function showCollege(value){
             </div>
 
         </div>
+
     `;
+
 }
 
 
-/* -------------------------
-   FORMAT
-------------------------- */
+/* =====================================
+   FORMAT NUMBER
+===================================== */
 
-function format(value){
+function formatNumber(value){
 
     if(
-        value===null ||
-        value===undefined ||
-        value===""
+        value === null ||
+        value === undefined ||
+        value === ""
     ){
+
         return "—";
+
     }
 
+
     return Number(value).toFixed(2);
+
 }
 
 
-/* -------------------------
+/* =====================================
    RUN
-------------------------- */
+===================================== */
 
-start();
+startApp();
 
 </script>
 
