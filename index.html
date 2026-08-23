@@ -1,1 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LBS Allotment Predictor</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f1115;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 35px 20px 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #181b21;
+            border: 1px solid #292d35;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #343943;
+            background: #101216;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: #ffd600;
+            color: #111;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 25px;
+            display: none;
+        }
+
+        .result h2 {
+            margin-bottom: 10px;
+        }
+
+        .result-box {
+            background: #111318;
+            border: 1px solid #292d35;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 12px;
+        }
+
+        .status {
+            color: #00e676;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            padding: 30px 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>LBS ALLOTMENT PREDICTOR</h1>
+        <p>2025 Data Based College Prediction</p>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+
+            <label for="course">Select Course</label>
+
+            <select id="course">
+                <option value="bsc-nursing">B.Sc Nursing</option>
+            </select>
+
+
+            <label for="indexMark">Enter Index Mark</label>
+
+            <input
+                type="number"
+                id="indexMark"
+                placeholder="Enter your index mark"
+                step="0.01"
+            >
+
+
+            <label for="quota">Select Quota</label>
+
+            <select id="quota">
+                <option value="SM">SM</option>
+                <option value="EZ">EZ</option>
+                <option value="MU">MU</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+            </select>
+
+
+            <button onclick="predict()">
+                PREDICT COLLEGES
+            </button>
+
+
+            <div class="result" id="result">
+
+                <h2>Your Prediction</h2>
+
+                <div class="result-box">
+                    <p>
+                        Index Mark:
+                        <strong id="showMark"></strong>
+                    </p>
+
+                    <p>
+                        Quota:
+                        <strong id="showQuota"></strong>
+                    </p>
+
+                    <br>
+
+                    <p class="status">
+                        Predictor is ready.
+                    </p>
+
+                    <p style="margin-top:10px;color:#aaa;">
+                        The 2025 LBS dataset will be connected next.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        LBS Allotment Predictor • Historical data based
+    </div>
+
+
+    <script>
+
+        function predict() {
+
+            const mark = document.getElementById("indexMark").value;
+            const quota = document.getElementById("quota").value;
+
+            if (!mark) {
+                alert("Please enter your index mark.");
+                return;
+            }
+
+            document.getElementById("showMark").textContent = mark;
+            document.getElementById("showQuota").textContent = quota;
+
+            document.getElementById("result").style.display = "block";
+        }
+
+    </script>
+
+</body>
+</html>
