@@ -616,21 +616,16 @@ function showPredictor(){
         <div class="tabs">
 
             <button
-                class="tab active"
-                onclick="startPayment('predictor')"
+    class="tab active"
+    onclick="showPredictor()">
+    Predictor
+</button>
 
-                Predictor
-
-            </button>
-
-
-            <button
-                class="tab"
-               onclick="startPayment('exact')"
-
-                Exact 2025 Data
-
-            </button>
+<button
+    class="tab"
+    onclick="showExactData()">
+    Exact 2025 Data
+</button>
 
         </div>
 
@@ -808,6 +803,12 @@ function getCutoff(college,quota){
 ===================================== */
 
 function predict(){
+
+    // Check whether the student has already paid
+    if (localStorage.getItem("lbsPaid") !== "true") {
+        startPayment("predictor");
+        return;
+    }
 
     const course =
         DATA.courses.find(function(c){
@@ -1152,7 +1153,7 @@ function predictionTable(
 ===================================== */
 async function startPayment(type) {
 
-    if (sessionStorage.getItem("lbsPaid") === "true") {
+    if (localStorage.getItem("lbsPaid") === "true") {
         if (type === "predictor") {
             showPredictor();
         } else if (type === "exact") {
@@ -1208,13 +1209,17 @@ async function startPayment(type) {
                 const result = await verifyResponse.json();
 
                 if (result.success) {
-    alert("Payment successful!");
+
+    localStorage.setItem("lbsPaid", "true");
+
+    alert("Payment successful! Full access unlocked.");
 
     if (type === "predictor") {
-        showPredictor();
+        predict();
     } else if (type === "exact") {
         showExactData();
     }
+}
 } else {
                     alert("Payment verification failed.");
                 }
