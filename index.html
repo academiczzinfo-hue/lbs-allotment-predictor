@@ -626,7 +626,7 @@ function showPredictor(){
 
             <button
                 class="tab"
-                onclick="showExactData()">
+               onclick="startPayment()"
 
                 Exact 2025 Data
 
@@ -1150,7 +1150,79 @@ function predictionTable(
 /* =====================================
    EXACT DATA PAGE
 ===================================== */
+async function startPayment() {
+    try {
+        const response = await fetch(
+            "https://lbs-payment-backend.vercel.app/api/create-order",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
 
+        const order = await response.json();
+
+        if (!response.ok || !order.id) {
+            alert("Unable to start payment. Please try again.");
+            return;
+        }
+
+        const options = {
+            key: "rzp_test_TTZnwZYAfiQKmw",
+            amount: order.amount,
+            currency: order.currency,
+            name: "ACADEMICZZ EDU",
+            description: "LBS Exact 2025 Data",
+            order_id: order.id,
+
+            handler: async function (paymentResponse) {
+
+                const verifyResponse = await fetch(
+                    "https://lbs-payment-backend.vercel.app/api/verify-payment",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            razorpay_order_id: paymentResponse.razorpay_order_id,
+                            razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                            razorpay_signature: paymentResponse.razorpay_signature
+                        })
+                    }
+                );
+
+                const result = await verifyResponse.json();
+
+                if (result.success) {
+                    alert("Payment successful!");
+                    showExactData();
+                } else {
+                    alert("Payment verification failed.");
+                }
+            },
+
+            modal: {
+                ondismiss: function () {
+                    console.log("Payment window closed");
+                }
+            },
+
+            theme: {
+                color: "#FFD600"
+            }
+        };
+
+        const razorpay = new Razorpay(options);
+        razorpay.open();
+
+    } catch (error) {
+        console.error(error);
+        alert("Something went wrong. Please try again.");
+    }
+}
 function showExactData(){
 
     let courseOptions = "";
