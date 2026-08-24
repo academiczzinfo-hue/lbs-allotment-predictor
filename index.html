@@ -617,7 +617,7 @@ function showPredictor(){
 
             <button
                 class="tab active"
-                onclick="showPredictor()">
+                onclick="startPayment('predictor')"
 
                 Predictor
 
@@ -626,7 +626,7 @@ function showPredictor(){
 
             <button
                 class="tab"
-               onclick="startPayment()"
+               onclick="startPayment('exact')"
 
                 Exact 2025 Data
 
@@ -1150,7 +1150,18 @@ function predictionTable(
 /* =====================================
    EXACT DATA PAGE
 ===================================== */
-async function startPayment() {
+async function startPayment(type) {
+
+    if (sessionStorage.getItem("lbsPaid") === "true") {
+        if (type === "predictor") {
+            showPredictor();
+        } else if (type === "exact") {
+            showExactData();
+        }
+        return;
+    }
+
+    
     try {
         const response = await fetch(
             "https://lbs-payment-backend.vercel.app/api/create-order",
@@ -1197,9 +1208,14 @@ async function startPayment() {
                 const result = await verifyResponse.json();
 
                 if (result.success) {
-                    alert("Payment successful!");
-                    showExactData();
-                } else {
+    alert("Payment successful!");
+
+    if (type === "predictor") {
+        showPredictor();
+    } else if (type === "exact") {
+        showExactData();
+    }
+} else {
                     alert("Payment verification failed.");
                 }
             },
